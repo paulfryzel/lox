@@ -3,4 +3,4 @@ project(lox)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(lox main.cpp)
+add_executable(lox main.cpp lox.cpp)
