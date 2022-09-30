@@ -31,6 +31,18 @@
 *.out
 *.app
 
-# IDE / Build
+# IDE / Build (CLion)
 .idea
 cmake-*
+
+
+# IDE / Build (Visual Studio)
+.vs
+*.vcxproj
+*.vcxproj.*
+*.sln
+CMakeSettings.json
+out
+Debug
+Release
+x64
