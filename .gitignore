@@ -35,7 +35,6 @@
 .idea
 cmake-*
 
-
 # IDE / Build (Visual Studio)
 .vs
 *.vcxproj
