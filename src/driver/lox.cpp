@@ -1,12 +1,13 @@
+#include "driver/lox.h"
+
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <vector>
 
-#include "lox.h"
-#include "scanner.h"
-#include "token.h"
+#include "scanner/scanner.h"
+#include "scanner/token.h"
 
 void Lox::Main(const std::vector<std::string>& args) {
   if (args.size() > 1) {
@@ -19,12 +20,12 @@ void Lox::Main(const std::vector<std::string>& args) {
   }
 }
 
-void Lox::Error(int line, std::string_view message) {
+void Lox::Error(int line, const std::string& message) {
   Report(line, "", message);
-  had_error_ = true;
+  had_error = true;
 }
 
-bool Lox::had_error_ = false;
+bool Lox::had_error = false;
 
 void Lox::RunFile(const std::string& filename) {
   std::ifstream in(filename, std::ios::in | std::ios::binary);
@@ -36,14 +37,15 @@ void Lox::RunFile(const std::string& filename) {
     Run(contents.str());
 
     // Indicate an error in the exit code.
-    if (had_error_) {
+    if (had_error) {
       std::quick_exit(65);
     }
   }
 }
 
 void Lox::RunPrompt() {
-  std::string line, lines;
+  std::string line;
+  std::string lines;
 
   std::cout << "> ";
 
@@ -55,7 +57,7 @@ void Lox::RunPrompt() {
     lines.append(line);
   }
   Run(lines);
-  had_error_ = false;
+  had_error = false;
 }
 
 void Lox::Run(const std::string& source) {
@@ -66,7 +68,8 @@ void Lox::Run(const std::string& source) {
   }
 }
 
-void Lox::Report(int line, std::string_view where, std::string_view message) {
+void Lox::Report(int line, const std::string& where,
+                 const std::string& message) {
   std::cerr << "[line " << line << "] Error" << where << ": " << message
             << '\n';
 }

@@ -1,12 +1,11 @@
-#include "scanner.h"
+#include "scanner/scanner.h"
 
-#include <iostream>
 #include <vector>
 
-#include "lox.h"
-#include "token_type.h"
+#include "driver/lox.h"
+#include "scanner/token_type.h"
 
-std::unordered_map<std::string, TokenType> Scanner::keywords_(
+std::unordered_map<std::string, TokenType> Scanner::keywords(
     {{"and", AND},
      {"class", CLASS},
      {"else", ELSE},
@@ -23,7 +22,6 @@ std::unordered_map<std::string, TokenType> Scanner::keywords_(
      {"true", TRUE},
      {"var", VAR},
      {"while", WHILE}});
-
 
 std::vector<Token*> Scanner::ScanTokens() {
   while (!IsAtEnd()) {
@@ -118,8 +116,9 @@ void Scanner::ScanToken() {
     case '/':
       if (Match('/')) {
         // A comment goes until the end of the line.
-        while (Peek() != '\n' && !IsAtEnd())
+        while (Peek() != '\n' && !IsAtEnd()) {
           Advance();
+        }
       } else {
         AddToken(SLASH);
       }
@@ -152,11 +151,8 @@ void Scanner::Identifier() {
   while (IsAlphaNumeric(Peek())) {
     Advance();
   }
-  const std::string text = source_.substr(start_, current_);
-  TokenType type = keywords_[text];
-  if (type == NULL) {
-    type = IDENTIFIER;
-  }
+  const std::string text = source_.substr(start_, current_ - start_);
+  TokenType type = keywords.contains(text) ? keywords[text] : IDENTIFIER;
   AddToken(type);
 }
 
@@ -173,11 +169,11 @@ void Scanner::String() {
     return;
   }
 
-  // The closing ".
+  // The closing RIGHT_PAREN (").
   Advance();
 
   // Trim the surrounding quotes.
-  std::string value = source_.substr(start_ + 1, current_ - 1);
+  std::string value = source_.substr(start_ + 1, current_ - start_ - 1);
   AddToken(STRING, value);
 }
 
@@ -191,11 +187,12 @@ void Scanner::Number() {
     // Consume the "."
     Advance();
 
-    while (IsDigit(Peek()))
+    while (IsDigit(Peek())) {
       Advance();
+    }
   }
 
-  AddToken(NUMBER, std::stod(source_.substr(start_, current_)));
+  AddToken(NUMBER, std::stod(source_.substr(start_, current_ - start_)));
 }
 
 char Scanner::Advance() { return source_.at(current_++); }

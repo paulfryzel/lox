@@ -1,7 +1,7 @@
 #include <string>
 #include <vector>
 
-#include "lox.h"
+#include "driver/lox.h"
 
 int main(int argc, char **argv) {
   const std::vector<std::string> arguments(argv + 1, argv + argc);

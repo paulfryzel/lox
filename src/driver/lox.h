@@ -2,22 +2,21 @@
 #define LOX_LOX_H
 
 #include <string>
-#include <string_view>
 #include <vector>
 
 class Lox {
  public:
   static void Main(const std::vector<std::string>& args);
-  static void Error(int line, std::string_view message);
+  static void Error(int line, const std::string& message);
 
-  static bool had_error_;
+  static bool had_error;
 
  private:
   static void RunFile(const std::string& filename);
   static void RunPrompt();
   static void Run(const std::string& source);
-  static void Report(int line, std::string_view where,
-                     std::string_view message);
+  static void Report(int line, const std::string& where,
+                     const std::string& message);
 };
 
 #endif  // LOX_LOX_H

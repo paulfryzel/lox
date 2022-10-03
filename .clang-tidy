@@ -5,7 +5,7 @@
 ---
 # - modernize-use-nodiscard is disabled because it only fixes const methods,
 #   not non-const, which yields distracting results on accessors.
-# - performance-unnecessary-value-param is disabled because it duplicate
+# - performance-unnecessary-value-param is disabled because it's duplicated
 #   modernize-pass-by-value.
 Checks:
   -*, bugprone-*, -bugprone-branch-clone, -bugprone-easily-swappable-parameters,
@@ -16,25 +16,26 @@ Checks:
   -modernize-avoid-c-arrays, -modernize-return-braced-init-list,
   -modernize-use-default-member-init, -modernize-use-emplace,
   -modernize-use-nodiscard, performance-*, -performance-unnecessary-value-param,
+  -modernize-use-trailing-return-type,
   readability-*, -readability-convert-member-functions-to-static,
   -readability-function-cognitive-complexity, -readability-else-after-return,
   -readability-implicit-bool-conversion, -readability-magic-numbers,
   -readability-make-member-function-const,
   -readability-qualified-auto,  -readability-static-definition-in-anonymous-namespace,
   -readability-suspicious-call-argument, -readability-use-anyofallof
-WarningsAsErrors: true
+WarningsAsErrors: 'true'
 CheckOptions:
   - { key: readability-identifier-naming.ClassCase, value: CamelCase }
   - {
-      key: readability-identifier-naming.ConstexprVariableCase,
-      value: CamelCase,
-    }
+    key: readability-identifier-naming.ConstexprVariableCase,
+    value: CamelCase,
+  }
   - { key: readability-identifier-naming.NamespaceCase, value: CamelCase }
   - { key: readability-identifier-naming.StructCase, value: CamelCase }
   - {
-      key: readability-identifier-naming.TemplateParameterCase,
-      value: CamelCase,
-    }
+    key: readability-identifier-naming.TemplateParameterCase,
+    value: CamelCase,
+  }
   - { key: readability-identifier-naming.TypeAliasCase, value: CamelCase }
   - { key: readability-identifier-naming.TypedefCase, value: CamelCase }
   - { key: readability-identifier-naming.UnionCase, value: CamelCase }
@@ -42,6 +43,14 @@ CheckOptions:
   - { key: readability-identifier-naming.ParameterCase, value: lower_case }
   - { key: readability-identifier-naming.ClassMemberCase, value: lower_case }
   - {
-      key: readability-identifier-naming.MethodIgnoredRegexp,
-      value: '^classof$',
-    }
+    key: readability-identifier-naming.MethodIgnoredRegexp,
+    value: '^classof$',
+  }
+  - {
+    key: readability-identifier-length.IgnoredVariableNames,
+    value: '^[c]|in$'
+  }
+  - {
+    key: readability-identifier-length.IgnoredParameterNames,
+    value: '^[cn]$'
+  }
