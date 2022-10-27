@@ -13,23 +13,23 @@ class Scanner {
  public:
   explicit Scanner(std::string source) : source_(std::move(source)) {}
 
-  std::vector<Token> ScanTokens();
+  auto ScanTokens() -> std::vector<Token>;
 
  private:
-  bool IsAtEnd() const;
-  static bool IsDigit(char c);
-  static bool IsAlpha(char c);
-  static bool IsAlphaNumeric(char c);
-  void ScanToken();
-  void Identifier();
-  void String();
-  void Number();
-  char Advance();
-  bool Match(char expected);
-  char Peek() const;
-  char PeekNext() const;
-  void AddToken(const TokenType& type);
-  void AddToken(const TokenType& type, const std::any& literal);
+  auto IsAtEnd() const -> bool;
+  static auto IsDigit(char c) -> bool;
+  static auto IsAlpha(char c) -> bool;
+  static auto IsAlphaNumeric(char c) -> bool;
+  auto ScanToken() -> void;
+  auto Identifier() -> void;
+  auto String() -> void;
+  auto Number() -> void;
+  auto Advance() -> char;
+  auto Match(char expected) -> bool;
+  auto Peek() const -> char;
+  auto PeekNext() const -> char;
+  auto AddToken(const TokenType& type) -> void;
+  auto AddToken(const TokenType& type, const std::any& literal) -> void;
 
   std::string source_;
   std::vector<Token> tokens_;

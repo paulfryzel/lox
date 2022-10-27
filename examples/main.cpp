@@ -3,7 +3,7 @@
 
 #include "driver/lox.h"
 
-int main(int argc, char** argv) {
+auto main(int argc, char** argv) -> int {
   const std::vector<std::string> arguments(argv + 1, argv + argc);
   Lox::Main(arguments);
 

@@ -25,7 +25,7 @@ std::unordered_map<std::string, TokenType> Scanner::keywords(
      {"var", VAR},
      {"while", WHILE}});
 
-std::vector<Token> Scanner::ScanTokens() {
+auto Scanner::ScanTokens() -> std::vector<Token> {
   while (!IsAtEnd()) {
     start_ = current_;
     ScanToken();
@@ -34,19 +34,21 @@ std::vector<Token> Scanner::ScanTokens() {
   return tokens_;
 }
 
-bool Scanner::IsAtEnd() const {
+auto Scanner::IsAtEnd() const -> bool {
   return current_ >= static_cast<const int>(source_.length());
 }
 
-bool Scanner::IsDigit(const char c) { return c >= '0' && c <= '9'; }
+auto Scanner::IsDigit(const char c) -> bool { return c >= '0' && c <= '9'; }
 
-bool Scanner::IsAlpha(const char c) {
+auto Scanner::IsAlpha(const char c) -> bool {
   return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
 }
 
-bool Scanner::IsAlphaNumeric(const char c) { return IsAlpha(c) || IsDigit(c); }
+auto Scanner::IsAlphaNumeric(const char c) -> bool {
+  return IsAlpha(c) || IsDigit(c);
+}
 
-bool Scanner::Match(const char expected) {
+auto Scanner::Match(const char expected) -> bool {
   if (IsAtEnd()) {
     return false;
   }
@@ -57,21 +59,21 @@ bool Scanner::Match(const char expected) {
   return true;
 }
 
-char Scanner::Peek() const {
+auto Scanner::Peek() const -> char {
   if (IsAtEnd()) {
     return '\0';
   }
   return source_.at(current_);
 }
 
-char Scanner::PeekNext() const {
+auto Scanner::PeekNext() const -> char {
   if (current_ + 1 >= static_cast<int>(source_.length())) {
     return '\0';
   }
   return source_.at(current_ + 1);
 }
 
-void Scanner::ScanToken() {
+auto Scanner::ScanToken() -> void {
   switch (const char c = Advance()) {
     case '(':
       AddToken(LEFT_PAREN);
@@ -149,7 +151,7 @@ void Scanner::ScanToken() {
   }
 }
 
-void Scanner::Identifier() {
+auto Scanner::Identifier() -> void {
   while (IsAlphaNumeric(Peek())) {
     Advance();
   }
@@ -158,7 +160,7 @@ void Scanner::Identifier() {
   AddToken(type);
 }
 
-void Scanner::String() {
+auto Scanner::String() -> void {
   while (Peek() != '"' && !IsAtEnd()) {
     if (Peek() == '\n') {
       line_++;
@@ -179,7 +181,7 @@ void Scanner::String() {
   AddToken(STRING, value);
 }
 
-void Scanner::Number() {
+auto Scanner::Number() -> void {
   while (IsDigit(Peek())) {
     Advance();
   }
@@ -197,11 +199,11 @@ void Scanner::Number() {
   AddToken(NUMBER, std::stod(source_.substr(start_, current_ - start_)));
 }
 
-char Scanner::Advance() { return source_.at(current_++); }
+auto Scanner::Advance() -> char { return source_.at(current_++); }
 
-void Scanner::AddToken(const TokenType& type) { AddToken(type, NULL); }
+auto Scanner::AddToken(const TokenType& type) -> void { AddToken(type, NULL); }
 
-void Scanner::AddToken(const TokenType& type, const std::any& literal) {
+auto Scanner::AddToken(const TokenType& type, const std::any& literal) -> void {
   const auto text = source_.substr(start_, current_ - start_);
   tokens_.emplace_back(type, text, literal, line_);
 }

@@ -3,7 +3,7 @@
 #include <ostream>
 #include <string>
 
-std::ostream& operator<<(std::ostream& out, const Token& token) {
+auto operator<<(std::ostream& out, const Token& token) -> std::ostream& {
   out << '[' << static_cast<int>(token.type_) << ' ' << token.lexeme_ << ' '
       << token.line_ << ']';
   return out;

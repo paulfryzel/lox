@@ -16,7 +16,8 @@ class Token {
         literal_(std::move(literal)),
         line_(line) {}
 
-  friend std::ostream& operator<<(std::ostream& out, const Token& token);
+  friend auto operator<<(std::ostream& out, const Token& token)
+      -> std::ostream&;
 
  private:
   TokenType type_;

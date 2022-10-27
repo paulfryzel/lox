@@ -7,17 +7,17 @@
 
 class Lox {
  public:
-  static void Main(const std::vector<std::string>& args);
-  static void Error(int line, std::string_view message);
+  static auto Main(const std::vector<std::string>& args) -> void;
+  static auto Error(int line, std::string_view message) -> void;
 
   static bool had_error;
 
  private:
-  static void RunFile(const std::string& filename);
-  static void RunPrompt();
-  static void Run(std::string source);
-  static void Report(int line, std::string_view where,
-                     std::string_view message);
+  static auto RunFile(const std::string& filename) -> void;
+  static auto RunPrompt() -> void;
+  static auto Run(std::string source) -> void;
+  static auto Report(int line, std::string_view where, std::string_view message)
+      -> void;
 };
 
 #endif  // LOX_LOX_H
