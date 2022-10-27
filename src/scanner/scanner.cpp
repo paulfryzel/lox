@@ -5,6 +5,8 @@
 #include "driver/lox.h"
 #include "scanner/token_type.h"
 
+using enum TokenType;
+
 std::unordered_map<std::string, TokenType> Scanner::keywords(
     {{"and", AND},
      {"class", CLASS},
@@ -23,12 +25,12 @@ std::unordered_map<std::string, TokenType> Scanner::keywords(
      {"var", VAR},
      {"while", WHILE}});
 
-std::vector<Token*> Scanner::ScanTokens() {
+std::vector<Token> Scanner::ScanTokens() {
   while (!IsAtEnd()) {
     start_ = current_;
     ScanToken();
   }
-  tokens_.push_back(new Token(END_OF_FILE, "", NULL, line_));
+  tokens_.emplace_back(END_OF_FILE, "", NULL, line_);
   return tokens_;
 }
 
@@ -201,5 +203,5 @@ void Scanner::AddToken(const TokenType& type) { AddToken(type, NULL); }
 
 void Scanner::AddToken(const TokenType& type, const std::any& literal) {
   const auto text = source_.substr(start_, current_ - start_);
-  tokens_.push_back(new Token(type, text, literal, line_));
+  tokens_.emplace_back(type, text, literal, line_);
 }

@@ -4,21 +4,16 @@
 #include <any>
 #include <string>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 #include "scanner/token.h"
 
 class Scanner {
  public:
-  explicit Scanner(const std::string& source) : source_(source) {}
+  explicit Scanner(std::string source) : source_(std::move(source)) {}
 
-  ~Scanner() {
-    for (const auto token : tokens_) {
-      delete token;
-    }
-  }
-
-  std::vector<Token*> ScanTokens();
+  std::vector<Token> ScanTokens();
 
  private:
   bool IsAtEnd() const;
@@ -36,8 +31,8 @@ class Scanner {
   void AddToken(const TokenType& type);
   void AddToken(const TokenType& type, const std::any& literal);
 
-  const std::string& source_;
-  std::vector<Token*> tokens_;
+  std::string source_;
+  std::vector<Token> tokens_;
 
   int start_ = 0;
   int current_ = 0;

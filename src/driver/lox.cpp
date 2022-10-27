@@ -3,7 +3,9 @@
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
+#include <memory>
 #include <sstream>
+#include <utility>
 #include <vector>
 
 #include "scanner/scanner.h"
@@ -12,7 +14,7 @@
 void Lox::Main(const std::vector<std::string>& args) {
   if (args.size() > 1) {
     std::cout << "Usage: lox [script]" << '\n';
-    std::quick_exit(64);  // UNIX's sysexits.h convention
+    std::exit(64);  // UNIX's sysexits.h convention
   } else if (args.size() == 1) {
     RunFile(args[0]);
   } else {
@@ -20,7 +22,7 @@ void Lox::Main(const std::vector<std::string>& args) {
   }
 }
 
-void Lox::Error(int line, const std::string& message) {
+void Lox::Error(int line, std::string_view message) {
   Report(line, "", message);
   had_error = true;
 }
@@ -38,7 +40,7 @@ void Lox::RunFile(const std::string& filename) {
 
     // Indicate an error in the exit code.
     if (had_error) {
-      std::quick_exit(65);
+      std::exit(65);
     }
   }
 }
@@ -60,16 +62,15 @@ void Lox::RunPrompt() {
   had_error = false;
 }
 
-void Lox::Run(const std::string& source) {
-  const auto scanner = new Scanner(source);
+void Lox::Run(std::string source) {
+  auto scanner = std::make_unique<Scanner>(std::move(source));
 
   for (const auto& token : scanner->ScanTokens()) {
-    std::cout << *token << ' ';
+    std::cout << token << ' ';
   }
 }
 
-void Lox::Report(int line, const std::string& where,
-                 const std::string& message) {
-  std::cerr << "[line " << line << "] Error" << where << ": " << message
+void Lox::Report(int line, std::string_view where, std::string_view message) {
+  std::cerr << "\n[line " << line << "] Error" << where << ": " << message
             << '\n';
 }

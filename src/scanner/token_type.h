@@ -1,9 +1,9 @@
 #ifndef LOX_TOKEN_TYPE_H
 #define LOX_TOKEN_TYPE_H
 
-enum TokenType {
+enum class TokenType {
   // Single-character tokens.
-  LEFT_PAREN,
+  LEFT_PAREN,  // 0
   RIGHT_PAREN,
   LEFT_BRACE,
   RIGHT_BRACE,
@@ -13,7 +13,7 @@ enum TokenType {
   PLUS,
   SEMICOLON,
   SLASH,
-  STAR,
+  STAR, // 10
 
   // One or two character tokens.
   BANG,
@@ -23,12 +23,12 @@ enum TokenType {
   GREATER,
   GREATER_EQUAL,
   LESS,
-  LESS_EQUAL,
+  LESS_EQUAL, // 18
 
   // Literals.
   IDENTIFIER,
   STRING,
-  NUMBER,
+  NUMBER, // 21
 
   // Keywords.
   AND,
@@ -46,9 +46,9 @@ enum TokenType {
   THIS,
   TRUE,
   VAR,
-  WHILE,
+  WHILE, // 37
 
-  END_OF_FILE
+  END_OF_FILE // 38
 };
 
 #endif  // LOX_TOKEN_TYPE_H
