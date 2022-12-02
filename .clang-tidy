@@ -51,5 +51,5 @@ CheckOptions:
   }
   - {
     key: readability-identifier-length.IgnoredParameterNames,
-    value: '^[cn]$'
+    value: '^[cns]$'
   }

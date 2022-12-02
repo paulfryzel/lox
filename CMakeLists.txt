@@ -14,3 +14,4 @@ add_executable(lox
         "src/scanner/scanner.h"
         "src/scanner/scanner.cpp")
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 20)
+add_executable(generate_ast tools/generate_ast.cpp src/util/string_util.h)
